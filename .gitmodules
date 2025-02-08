@@ -1,0 +1,6 @@
+[submodule "2-sunday-ahn-community-fe-react"]
+	path = 2-sunday-ahn-community-fe-react
+	url = https://github.com/AhnSunday/2-sunday-ahn-community-fe-react.git
+[submodule "2-sunday-ahn-community-be"]
+	path = 2-sunday-ahn-community-be
+	url = https://github.com/100-hours-a-week/2-sunday-ahn-community-be.git
