@@ -33,7 +33,7 @@ jobs:
             -f Dockerfile \
             --build-arg REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }} \
             --build-arg REACT_APP_BACKEND_PORT=${{ secrets.REACT_APP_BACKEND_PORT }} \
-            -t ${{ secrets.ECR_REGISTRY }}/sunday/community-frontend:latest --push .
+            -t ${{ secrets.ECR_REGISTRY }}/sunday/community:frontend --push .
 
   build-and-push-backend:
     name: Build & Push Backend to ECR
@@ -60,7 +60,7 @@ jobs:
           cd 2-sunday-ahn-community-be
           docker buildx build --platform linux/amd64 \
             -f Dockerfile \
-            -t ${{ secrets.ECR_REGISTRY }}/sunday/community-backend:latest --push .
+            -t ${{ secrets.ECR_REGISTRY }}/sunday/community:backend --push .
 
   build-and-push-nginx:
     name: Build & Push Nginx to ECR
@@ -86,4 +86,4 @@ jobs:
         run: |
           cd nginx
           docker buildx build --platform linux/amd64 \
-            -t ${{ secrets.ECR_REGISTRY }}/sunday/community-nginx:latest --push .
+            -t ${{ secrets.ECR_REGISTRY }}/sunday/community:nginx --push .
