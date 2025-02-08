@@ -10,8 +10,10 @@ jobs:
     name: Build & Push Frontend to ECR
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (with submodules)
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -25,8 +27,8 @@ jobs:
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
       - name: Build and Push Frontend
-        working-directory: 2-sunday-ahn-community-fe-react @ fd0132e
         run: |
+          cd 2-sunday-ahn-community-fe-react
           docker buildx build --platform linux/amd64 \
             -f Dockerfile \
             --build-arg REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }} \
@@ -37,8 +39,10 @@ jobs:
     name: Build & Push Backend to ECR
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (with submodules)
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -52,8 +56,8 @@ jobs:
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
       - name: Build and Push Backend
-        working-directory: 2-sunday-ahn-community-be @ a7aba65
         run: |
+          cd 2-sunday-ahn-community-be
           docker buildx build --platform linux/amd64 \
             -f Dockerfile \
             -t ${{ secrets.ECR_REGISTRY }}/sunday/community-backend:latest --push .
@@ -62,8 +66,10 @@ jobs:
     name: Build & Push Nginx to ECR
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (with submodules)
         uses: actions/checkout@v4
+        with:
+          submodules: recursive 
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -77,7 +83,7 @@ jobs:
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
       - name: Build and Push Nginx
-        working-directory: nginx
         run: |
+          cd nginx
           docker buildx build --platform linux/amd64 \
             -t ${{ secrets.ECR_REGISTRY }}/sunday/community-nginx:latest --push .
